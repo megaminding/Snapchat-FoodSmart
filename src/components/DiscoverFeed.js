@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
       height: -1,
     },
     textShadowRadius: 1,
-    textShadowOpacity: 1,
+    // textShadowOpacity: 1,
   },
   smallFeedText: {},
 });
