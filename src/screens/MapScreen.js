@@ -23,7 +23,7 @@ export default function MapScreen({ navigation }) {
 
   const [currentRegion, setCurrentRegion] = useState({
     latitude: 34.0211573,
-    longitude:  -118.4503864,
+    longitude: -118.4503864,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
@@ -39,8 +39,8 @@ export default function MapScreen({ navigation }) {
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
       setCurrentRegion({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
+        latitude: 34.0211573,
+        longitude: -118.4503864,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       });
@@ -57,8 +57,9 @@ export default function MapScreen({ navigation }) {
         region={currentRegion}
         showsUserLocation={true}
         showsMyLocationButton={true}
-      />
-
+      >
+        <Marker coordinate={currentRegion} />
+      </MapView>
       <View style={[styles.mapFooter]}>
         <View style={styles.locationContainer}>
           <TouchableOpacity
