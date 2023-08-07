@@ -85,8 +85,6 @@ export default function MapScreen({ navigation }) {
             addMarker(event.nativeEvent.coordinate);
           }
         }}
-
-        // onLayout={() => { this.mark.showCallout(); }}
       >
     {markers.map((marker, index) => (
         <Marker
@@ -94,14 +92,8 @@ export default function MapScreen({ navigation }) {
           coordinate={marker.coordinate}
           title={marker.title}
           description={marker.description}
-          // onLayout={() => marker.callout && marker.callout.showCallout()}
         >
-          {/* <Callout>
-            <View>
-              <Text>{marker.title}</Text>
-              <Text>{marker.description}</Text>
-            </View>
-          </Callout> */}
+       
           <Image
             source={require("../../assets/apple.png")}
             style={{ width: 48, height: 48 }}
@@ -115,8 +107,27 @@ export default function MapScreen({ navigation }) {
         </Marker>
       ))}
       </MapView>
+
+      <View style={styles.cameraOptions}>
+          <TouchableOpacity // code for button to add new markers!
+            style={[styles.userLocation, styles.shadow]}
+            onPress={() => {
+              console.log("bottom");
+              setAddingMarker(!addingMarker)
+             
+            }}
+          >
+            <Ionicons name="ios-add-outline" size={15} color="black" />
+          </TouchableOpacity>
+        </View>
+
       <View style={[styles.mapFooter]}>
+
+    
+
+
         <View style={styles.locationContainer}>
+          
           <TouchableOpacity
             style={[styles.userLocation, styles.shadow]}
             onPress={() => {
@@ -128,18 +139,8 @@ export default function MapScreen({ navigation }) {
             <Ionicons name="ios-navigate" size={15} color="black" />
           </TouchableOpacity>
         </View>
-        <View style={styles.locationContainer}>
-          <TouchableOpacity
-            style={[styles.userLocation, styles.shadow]}
-            onPress={() => {
-              console.log("bottom");
-              setAddingMarker(!addingMarker)
-             
-            }}
-          >
-            <Ionicons name="ios-navigate" size={15} color="black" />
-          </TouchableOpacity>
-        </View>
+     
+        
         <View style={[styles.bitmojiContainer, styles.shadow]}>
           <View style={styles.myBitmoji}>
             <Image
@@ -175,7 +176,7 @@ export default function MapScreen({ navigation }) {
 }
 const styles = StyleSheet.create({
   cameraOptions: {
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     position: "absolute",
     right: 12,
     paddingTop: 8,
