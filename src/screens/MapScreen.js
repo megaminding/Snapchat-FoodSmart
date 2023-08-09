@@ -13,9 +13,11 @@ import {
   Image,
   Text,
   TouchableOpacity,
-  Modal,
-  TextInput,
 } from "react-native";
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from "@gorhom/bottom-sheet";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Location from "expo-location";
@@ -41,30 +43,20 @@ export default function MapScreen({ navigation }) {
     longitudeDelta: 0.01,
   };
 
-  // const [region, setRegion] = useState({
-  //   latitude: 34.0171,
-  //   longitude: -118.2887,
-  //   latitudeDelta: 0.01,
-  //   longitudeDelta: 0.01,
-  // });
-
   const handleGoToCoordinates = () => {
     console.log("yas");
     setCurrentRegion(targetCoordinates);
   };
 
-  // const bottomSheetRef = useRef < BottomSheet > null;
+  const bottomSheetModalRef = useRef(null);
 
-  // // variables
-  // const snapPoints = useMemo(() => ["25%", "50%"], []);
+  function handlePresentModal() {
+    bottomSheetModalRef.current?.present();
+  }
 
-  // // callbacks
-  // const handleSheetChanges = useCallback((index: number) => {
-  //   console.log("handleSheetChanges", index);
-  // }, []);
+  const snapPoints = useMemo(() => ["25%", "50%"], []);
 
   const initialMarkers = [
-    // coordinate: { latitude: 34.0171, longitude: -118.2887 },
     {
       coordinate: { latitude: 34.0171, longitude: -118.2887 },
       title: "Natural History Museum",
@@ -107,16 +99,6 @@ export default function MapScreen({ navigation }) {
       description: "Community Garden: 2415 Broadway Santa Monica",
       image: require("../../assets/communityGarden.png"),
     },
-    // {
-    //   coordinate: {
-    //     latitude: 34.037195529699446,
-    //     longitude: -118.44354044668881,
-    //   },
-    //   title: "Faith Tabernacle Pantry",
-    //   description:
-    //     "Food Bank: 2147 Purdue Avenue, Los Angeles, CA 90025, United States",
-    //   image: require("../../assets/foodBank.png"),
-    // },
     {
       coordinate: {
         latitude: 34.0169414443277,
@@ -165,13 +147,9 @@ export default function MapScreen({ navigation }) {
 
   const plusImage = require("../../assets/carrotAdd.png");
 
-  // const cancelImage = require('../../assets/foodBank.png');
   const cancelImage = require("../../assets/close-outline.svg");
 
   const [markers, setMarkers] = useState(initialMarkers);
-  // const addMarker = (coordinate) => {
-  //   setMarkers([...markers, { coordinate }]);
-  // };
 
   const [addingMarker, setAddingMarker] = useState(false);
 
@@ -204,7 +182,6 @@ export default function MapScreen({ navigation }) {
 
   const navigateToCoordinates = () => {
     console.log("meow");
-    // Coordinates for 34.0171° N, 118.2887° W
     const targetCoordinates = {
       latitude: 34.0171,
       longitude: -118.2887,
@@ -220,130 +197,134 @@ export default function MapScreen({ navigation }) {
 
   return (
     <View style={[styles.container, { marginBottom: tabBarHeight }]}>
-      <MapView
-        style={styles.map}
-        // region={currentRegion}
-        showsUserLocation={true}
-        showsMyLocationButton={true}
-        // initialRegion={region}
-        region={currentRegion}
-        onPress={(event) => {
-          if (addingMarker) {
-            addMarker(event.nativeEvent.coordinate);
-          }
-        }}
-      >
-        {markers.map((marker, index) => (
-          <Marker
-            key={index}
-            coordinate={marker.coordinate}
-            title={marker.title}
-            description={marker.description}
-          >
-            {marker.image ? (
-              <Image
-                source={marker.image}
-                style={{ width: 48, height: 48 }}
-                resizeMode="contain"
-              />
-            ) : (
-              <Image
-                source={require("../../assets/unofficialPin.png")}
-                style={{ width: 48, height: 48 }}
-                resizeMode="contain"
-              />
-            )}
-          </Marker>
-        ))}
-      </MapView>
-      <View style={styles.leftIcons}>
-        <TouchableOpacity onPress={handleGoToCoordinates}>
-          <Image
-            source={require("../../assets/ChatFeature.png")}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.rightIcons}>
-        <View style={styles.first}>
-          <TouchableOpacity>
-            <Image
-              source={require("../../assets/mapRightIcons.png")}
-              style={{ width: 50, height: 250 }}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity // code for button to add new markers!
-          style={[styles.userLocation, styles.shadow]}
-          onPress={() => {
-            console.log("bottom");
-            setAddingMarker(!addingMarker);
+      <BottomSheetModalProvider>
+        <MapView
+          style={styles.map}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
+          region={currentRegion}
+          onPress={(event) => {
+            if (addingMarker) {
+              addMarker(event.nativeEvent.coordinate);
+              handlePresentModal();
+            }
           }}
         >
-          <Ionicons
-            name={addingMarker ? "ios-close-outline" : "ios-add-outline"}
-            size={30}
-            color={addingMarker ? "red" : "black"}
-          />
-          {/* <Image
-              source={addingMarker ? cancelImage : plusImage}
-              // style={{ width: 30, height: 30, tintColor: addingMarker ? 'red' : 'black' }}
-              style={{ width: 40, height: 40 }}
-              resizeMode="contain"
-            /> */}
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <Ionicons style={styles.nightModeIcon} size={30} color="white" />
-        </TouchableOpacity>
-      </View>
-
-      <View style={[styles.mapFooter]}>
-        <View style={styles.locationContainer}>
-          <TouchableOpacity
-            style={[styles.userLocation, styles.shadow]}
-            onPress={() => {
-              console.log("Go to user location! - top");
-              const { latitude, longitude } = location.coords;
-              setCurrentRegion({ ...currentRegion, latitude, longitude });
-            }}
+          <BottomSheetModal
+            ref={bottomSheetModalRef}
+            index={1}
+            snapPoints={snapPoints}
           >
-            <Ionicons name="ios-navigate" size={15} color="black" />
+            <View>
+              <Text>Hello</Text>
+            </View>
+          </BottomSheetModal>
+          {markers.map((marker, index) => (
+            <Marker
+              key={index}
+              coordinate={marker.coordinate}
+              title={marker.title}
+              description={marker.description}
+            >
+              {marker.image ? (
+                <Image
+                  source={marker.image}
+                  style={{ width: 48, height: 48 }}
+                  resizeMode="contain"
+                />
+              ) : (
+                <Image
+                  source={require("../../assets/unofficialPin.png")}
+                  style={{ width: 48, height: 48 }}
+                  resizeMode="contain"
+                />
+              )}
+            </Marker>
+          ))}
+        </MapView>
+        <View style={styles.leftIcons}>
+          <TouchableOpacity onPress={handleGoToCoordinates}>
+            <Image
+              source={require("../../assets/ChatFeature.png")}
+              resizeMode="contain"
+            />
           </TouchableOpacity>
         </View>
 
-        <View style={[styles.bitmojiContainer, styles.shadow]}>
-          <View style={styles.myBitmoji}>
-            <Image
-              style={styles.bitmojiImage}
-              source={require("../../assets/snapchat/personalBitmoji.png")}
-            />
-            <View style={styles.bitmojiTextContainer}>
-              <Text style={styles.bitmojiText}>My Bitmoji</Text>
-            </View>
+        <View style={styles.rightIcons}>
+          <View style={styles.first}>
+            <TouchableOpacity>
+              <Image
+                source={require("../../assets/mapRightIcons.png")}
+                style={{ width: 50, height: 250 }}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
           </View>
-          <View style={styles.places}>
-            <Image
-              style={styles.bitmojiImage}
-              source={require("../../assets/snapchat/personalBitmoji.png")}
+          <TouchableOpacity // code for button to add new markers!
+            style={[styles.userLocation, styles.shadow]}
+            onPress={() => {
+              console.log("bottom");
+              setAddingMarker(!addingMarker);
+            }}
+          >
+            <Ionicons
+              name={addingMarker ? "ios-close-outline" : "ios-add-outline"}
+              size={30}
+              color={addingMarker ? "red" : "black"}
             />
-            <View style={styles.bitmojiTextContainer}>
-              <Text style={styles.bitmojiText}>Places</Text>
-            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Ionicons style={styles.nightModeIcon} size={30} color="white" />
+          </TouchableOpacity>
+        </View>
+
+        <View style={[styles.mapFooter]}>
+          <View style={styles.locationContainer}>
+            <TouchableOpacity
+              style={[styles.userLocation, styles.shadow]}
+              onPress={() => {
+                console.log("Go to user location! - top");
+                const { latitude, longitude } = location.coords;
+                setCurrentRegion({ ...currentRegion, latitude, longitude });
+              }}
+            >
+              <Ionicons name="ios-navigate" size={15} color="black" />
+            </TouchableOpacity>
           </View>
-          <View style={styles.myFriends}>
-            <Image
-              style={styles.bitmojiImage}
-              source={require("../../assets/snapchat/personalBitmoji.png")}
-            />
-            <View style={styles.bitmojiTextContainer}>
-              <Text style={styles.bitmojiText}>Friends</Text>
+
+          <View style={[styles.bitmojiContainer, styles.shadow]}>
+            <View style={styles.myBitmoji}>
+              <Image
+                style={styles.bitmojiImage}
+                source={require("../../assets/snapchat/personalBitmoji.png")}
+              />
+              <View style={styles.bitmojiTextContainer}>
+                <Text style={styles.bitmojiText}>My Bitmoji</Text>
+              </View>
+            </View>
+            <View style={styles.places}>
+              <Image
+                style={styles.bitmojiImage}
+                source={require("../../assets/snapchat/personalBitmoji.png")}
+              />
+              <View style={styles.bitmojiTextContainer}>
+                <Text style={styles.bitmojiText}>Places</Text>
+              </View>
+            </View>
+            <View style={styles.myFriends}>
+              <Image
+                style={styles.bitmojiImage}
+                source={require("../../assets/snapchat/personalBitmoji.png")}
+              />
+              <View style={styles.bitmojiTextContainer}>
+                <Text style={styles.bitmojiText}>Friends</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      </BottomSheetModalProvider>
     </View>
   );
 }
@@ -365,7 +346,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   rightIcons: {
-    // backgroundColor: 'white',
     position: "absolute",
     right: 20,
     paddingTop: 30,
@@ -374,7 +354,6 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   leftIcons: {
-    // backgroundColor: 'white',
     position: "absolute",
     left: 5,
     paddingTop: 30,
