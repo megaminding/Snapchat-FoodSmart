@@ -1,22 +1,15 @@
 import React from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Platform, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import UserChat from "../components/UserChat";
-import BasicChatbot from "../chatbots/BasicChatbot";
-import BakersChatbot from "../chatbots/BakersChatbot";
+import Questionaire from "../chatbots/Questionaire";
 
 // prettier-ignore
 export const CHATBOTS = {
-  "BasicChatbot": {
-    name: "React Native Chatbot",
-    imageUrl: "https://loremflickr.com/140/140",
-    component: BasicChatbot,
-  },
-  "BakersChatbot": {
-    name: "Baker's Dog Trivia",
-    imageUrl: "https://img.freepik.com/free-vector/cute-dog-robot-cartoon-character-animal-technology-isolated_138676-3143.jpg?w=150",
-    component: BakersChatbot,
+  "Team SnatChap": {
+    name: "Team SnatChap",
+    imageUrl: "https://i.insider.com/50e4891469beddab1c000008?width=600&format=jpeg&auto=webp",
+    component: Questionaire,
   }
 }
 
