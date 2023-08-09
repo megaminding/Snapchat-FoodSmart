@@ -33,11 +33,11 @@ export default function MapScreen({ navigation }) {
     longitudeDelta: 0.0421,
   });
 
-
-  const targetCoordinates = { // go to natural history museum
+  const targetCoordinates = {
+    // go to natural history museum
     latitude: 34.0171,
     longitude: -118.2887,
-      latitudeDelta: 0.01,
+    latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   };
 
@@ -49,19 +49,19 @@ export default function MapScreen({ navigation }) {
   // });
 
   const handleGoToCoordinates = () => {
-    console.log('yas')
+    console.log("yas");
     setCurrentRegion(targetCoordinates);
   };
 
-  const bottomSheetRef = useRef < BottomSheet > null;
+  // const bottomSheetRef = useRef < BottomSheet > null;
 
-  // variables
-  const snapPoints = useMemo(() => ["25%", "50%"], []);
+  // // variables
+  // const snapPoints = useMemo(() => ["25%", "50%"], []);
 
-  // callbacks
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
-  }, []);
+  // // callbacks
+  // const handleSheetChanges = useCallback((index: number) => {
+  //   console.log("handleSheetChanges", index);
+  // }, []);
 
   const initialMarkers = [
     // coordinate: { latitude: 34.0171, longitude: -118.2887 },
@@ -257,18 +257,13 @@ export default function MapScreen({ navigation }) {
         ))}
       </MapView>
       <View style={styles.leftIcons}>
-      <TouchableOpacity 
-          onPress={handleGoToCoordinates} 
-            >
-      <Image
-              source={require("../../assets/ChatFeature.png")}
-              resizeMode="contain"
-            />
-
-            </TouchableOpacity>
-        
-
-        </View>
+        <TouchableOpacity onPress={handleGoToCoordinates}>
+          <Image
+            source={require("../../assets/ChatFeature.png")}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.rightIcons}>
         <View style={styles.first}>
@@ -279,29 +274,27 @@ export default function MapScreen({ navigation }) {
               resizeMode="contain"
             />
           </TouchableOpacity>
-          </View>
-          <TouchableOpacity // code for button to add new markers!
-            style={[styles.userLocation, styles.shadow]}
-            onPress={() => {
-              console.log("bottom");
-              setAddingMarker(!addingMarker);
-            }}
-          >
-
+        </View>
+        <TouchableOpacity // code for button to add new markers!
+          style={[styles.userLocation, styles.shadow]}
+          onPress={() => {
+            console.log("bottom");
+            setAddingMarker(!addingMarker);
+          }}
+        >
           <Ionicons
-            name={addingMarker ? 'ios-close-outline' : 'ios-add-outline'}
+            name={addingMarker ? "ios-close-outline" : "ios-add-outline"}
             size={30}
-            color={addingMarker ? 'red' : 'black'}
+            color={addingMarker ? "red" : "black"}
           />
-            {/* <Image
+          {/* <Image
               source={addingMarker ? cancelImage : plusImage}
               // style={{ width: 30, height: 30, tintColor: addingMarker ? 'red' : 'black' }}
               style={{ width: 40, height: 40 }}
               resizeMode="contain"
             /> */}
-          </TouchableOpacity>
-         
-      
+        </TouchableOpacity>
+
         <TouchableOpacity>
           <Ionicons style={styles.nightModeIcon} size={30} color="white" />
         </TouchableOpacity>
