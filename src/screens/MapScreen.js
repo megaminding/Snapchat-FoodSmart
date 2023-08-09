@@ -13,6 +13,9 @@ import {
   Image,
   Text,
   TouchableOpacity,
+  Modal,
+  TextInput,
+  Button,
 } from "react-native";
 import {
   BottomSheetModal,
@@ -36,7 +39,7 @@ export default function MapScreen({ navigation }) {
   });
 
   const targetCoordinates = {
-    // go to natural history museum
+    //natural history museum coordinates 
     latitude: 34.0171,
     longitude: -118.2887,
     latitudeDelta: 0.01,
@@ -44,7 +47,6 @@ export default function MapScreen({ navigation }) {
   };
 
   const handleGoToCoordinates = () => {
-    console.log("yas");
     setCurrentRegion(targetCoordinates);
   };
 
@@ -57,6 +59,7 @@ export default function MapScreen({ navigation }) {
   const snapPoints = useMemo(() => ["25%", "50%"], []);
 
   const initialMarkers = [
+
     {
       coordinate: { latitude: 34.0171, longitude: -118.2887 },
       title: "Natural History Museum",
@@ -152,11 +155,26 @@ export default function MapScreen({ navigation }) {
   const [markers, setMarkers] = useState(initialMarkers);
 
   const [addingMarker, setAddingMarker] = useState(false);
+  const [textInputValue, setTextInputValue] = useState("");
 
+
+//updating new user inputted marker title + description
+  const [markerTitle, setMarkerTitle] = useState("");
+  const [markerDescription, setMarkerDescription] = useState("");
+
+  //updating new user inputted marker title + description
   const addMarker = (coordinate) => {
-    console.log("yas");
-    setMarkers([...markers, { coordinate }]);
-    setAddingMarker(false); // Reset the addingMarker state
+    if (markerTitle && markerDescription) {
+      setMarkers([
+        ...markers,
+        { coordinate, title: markerTitle, description: markerDescription },
+      ]);
+      setMarkerTitle("");
+      setMarkerDescription("");
+      setAddingMarker(false);
+      setIsModalVisible(false);
+      console.log(setMarkerTitle);
+    }
   };
 
   useEffect(() => {
@@ -181,18 +199,10 @@ export default function MapScreen({ navigation }) {
   text = JSON.stringify(location);
 
   const navigateToCoordinates = () => {
-    console.log("meow");
     const targetCoordinates = {
       latitude: 34.0171,
       longitude: -118.2887,
     };
-
-    // Use the map's animateToRegion function to move to the target coordinates
-    mapViewRef.current.animateToRegion({
-      ...targetCoordinates,
-      latitudeDelta: 0.5,
-      longitudeDelta: 0.5,
-    });
   };
 
   return (
@@ -249,7 +259,33 @@ export default function MapScreen({ navigation }) {
               resizeMode="contain"
             />
           </TouchableOpacity>
+                      <TextInput
+          placeholder="Title"
+          value={markerTitle}
+          onChangeText={setMarkerTitle}
+          style={styles.input}
+        />
+        <TextInput
+          placeholder="Description"
+          value={markerDescription}
+          onChangeText={setMarkerDescription}
+          style={styles.input}
+        />
         </View>
+        <TouchableOpacity // code for button to add new markers!
+          style={[styles.userLocation, styles.shadow]}
+          onPress={() => {
+            console.log("bottom");
+            setAddingMarker(!addingMarker);
+          }}
+        >
+          <Ionicons
+            name={addingMarker ? "ios-close-outline" : "ios-add-outline"}
+            size={30}
+            color={addingMarker ? "red" : "black"}
+          />
+      
+        </TouchableOpacity>
 
         <View style={styles.rightIcons}>
           <View style={styles.first}>
@@ -329,6 +365,16 @@ export default function MapScreen({ navigation }) {
   );
 }
 const styles = StyleSheet.create({
+  input: {
+    width: "400%",
+    padding: 10,
+    backgroundColor: "rgba(255, 255, 255, 0.7)", 
+    borderRadius: 8,
+    height: 150, 
+  },
+  backgroundImage: {
+    flex: 1,
+  },
   flipIcon: {
     marginTop: 10,
     transform: [{ rotate: "90deg" }],
@@ -370,11 +416,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  // container: {
-  //   flex: 1,
-  //   padding: 24,
-  //   backgroundColor: 'grey',
-  // },
   contentContainer: {
     flex: 1,
     alignItems: "center",
