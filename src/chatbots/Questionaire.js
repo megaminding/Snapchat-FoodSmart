@@ -66,13 +66,6 @@ export default function Questionaire() {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>
-              Have you ever experienced food insecurity?
-            </Text>
-            <Text style={styles.modalText}>
-              Are you interested in learning more about food resources in your
-              area?
-            </Text>
             <Button
               style={styles.submitButton}
               title="Submit"
@@ -125,10 +118,6 @@ const styles = StyleSheet.create({
   textStyle: {
     color: "white",
     fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
     textAlign: "center",
   },
 });

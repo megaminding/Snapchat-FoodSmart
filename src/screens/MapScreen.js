@@ -20,7 +20,6 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Location from "expo-location";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import BottomSheet from "@gorhom/bottom-sheet";
 
 export default function MapScreen({ navigation }) {
   const tabBarHeight = useBottomTabBarHeight();
@@ -33,16 +32,6 @@ export default function MapScreen({ navigation }) {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
-
-  const bottomSheetRef = useRef < BottomSheet > null;
-
-  // variables
-  const snapPoints = useMemo(() => ["25%", "50%"], []);
-
-  // callbacks
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
-  }, []);
 
   const initialMarkers = [
     {
@@ -150,7 +139,7 @@ export default function MapScreen({ navigation }) {
   const [addingMarker, setAddingMarker] = useState(false);
 
   const addMarker = (coordinate) => {
-    console.log('yas')
+    console.log("yas");
     setMarkers([...markers, { coordinate }]);
     setAddingMarker(false); // Reset the addingMarker state
   };
@@ -164,7 +153,6 @@ export default function MapScreen({ navigation }) {
       }
       let location = await Location.getCurrentPositionAsync({});
 
-      
       setLocation(location);
       setCurrentRegion({
         latitude: 34.0211573,
@@ -178,7 +166,7 @@ export default function MapScreen({ navigation }) {
   text = JSON.stringify(location);
 
   const navigateToCoordinates = () => {
-    console.log('meow')
+    console.log("meow");
     // Coordinates for 34.0171° N, 118.2887° W
     const targetCoordinates = {
       latitude: 34.0171,
@@ -192,7 +180,6 @@ export default function MapScreen({ navigation }) {
       longitudeDelta: 0.01,
     });
   };
-
 
   return (
     <View style={[styles.container, { marginBottom: tabBarHeight }]}>
@@ -231,32 +218,27 @@ export default function MapScreen({ navigation }) {
         ))}
       </MapView>
       <View style={styles.leftIcons}>
-      <TouchableOpacity 
+        <TouchableOpacity
           onPress={() => {
-        {navigateToCoordinates}
-              // console.log("Go to NATURAL HISTORY");
-              // const { latitude, longitude } = location.coords;
-              // // latitude: 34.03238, longitude: -118.34691 
-              // console.log(location)
-              // setCurrentRegion({ ...currentRegion, latitude, longitude });
-              
-      }
-    }
-            >
-      <Image
-              source={require("../../assets/ChatFeature.png")}
-              resizeMode="contain"
-            />
-
-            </TouchableOpacity>
-        
-
-        </View>
+            {
+              navigateToCoordinates;
+            }
+            // console.log("Go to NATURAL HISTORY");
+            // const { latitude, longitude } = location.coords;
+            // // latitude: 34.03238, longitude: -118.34691
+            // console.log(location)
+            // setCurrentRegion({ ...currentRegion, latitude, longitude });
+          }}
+        >
+          <Image
+            source={require("../../assets/ChatFeature.png")}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.rightIcons}>
-     
         <View style={styles.first}>
-      
           <TouchableOpacity>
             <Image
               source={require("../../assets/mapRightIcons.png")}
@@ -264,23 +246,21 @@ export default function MapScreen({ navigation }) {
               resizeMode="contain"
             />
           </TouchableOpacity>
-          </View>
-          <TouchableOpacity // code for button to add new markers!
-            style={[styles.userLocation, styles.shadow]}
-            onPress={() => {
-              console.log("bottom");
-              setAddingMarker(!addingMarker);
-            }}
-          >
-            <Image
-              source={addingMarker ? cancelImage : plusImage}
-              // style={{ width: 30, height: 30, tintColor: addingMarker ? 'red' : 'black' }}
-              style={{ width: 40, height: 40 }}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-         
-      
+        </View>
+        <TouchableOpacity // code for button to add new markers!
+          style={[styles.userLocation, styles.shadow]}
+          onPress={() => {
+            console.log("bottom");
+            setAddingMarker(!addingMarker);
+          }}
+        >
+          <Image
+            source={addingMarker ? cancelImage : plusImage}
+            // style={{ width: 30, height: 30, tintColor: addingMarker ? 'red' : 'black' }}
+            style={{ width: 40, height: 40 }}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
 
         <TouchableOpacity>
           <Ionicons style={styles.nightModeIcon} size={30} color="white" />
@@ -369,7 +349,7 @@ const styles = StyleSheet.create({
     width: 40,
     padding: 5,
   },
-  first:{
+  first: {
     right: 10,
   },
   container: {
