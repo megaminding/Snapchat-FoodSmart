@@ -34,6 +34,27 @@ export default function MapScreen({ navigation }) {
     longitudeDelta: 0.0421,
   });
 
+
+
+  const targetCoordinates = { // go to natural history museum
+    latitude: 34.0171,
+    longitude: -118.2887,
+      latitudeDelta: 0.01,
+    longitudeDelta: 0.01,
+  };
+
+  // const [region, setRegion] = useState({
+  //   latitude: 34.0171,
+  //   longitude: -118.2887,
+  //   latitudeDelta: 0.01,
+  //   longitudeDelta: 0.01,
+  // });
+
+  const handleGoToCoordinates = () => {
+    console.log('yas')
+    setCurrentRegion(targetCoordinates);
+  };
+
   const bottomSheetRef = useRef < BottomSheet > null;
 
   // variables
@@ -45,6 +66,13 @@ export default function MapScreen({ navigation }) {
   }, []);
 
   const initialMarkers = [
+    // coordinate: { latitude: 34.0171, longitude: -118.2887 },
+    {
+      coordinate: { latitude: 34.0171, longitude: -118.2887 },
+      title: "Natural History Museum",
+      description: "Free admission with EBT",
+      image: require("../../assets/naturalhistorymuseum.png"),
+    },
     {
       coordinate: { latitude: 33.99171, longitude: -118.30913 },
       title: "South Western & W 56th",
@@ -188,8 +216,8 @@ export default function MapScreen({ navigation }) {
     // Use the map's animateToRegion function to move to the target coordinates
     mapViewRef.current.animateToRegion({
       ...targetCoordinates,
-      latitudeDelta: 0.01,
-      longitudeDelta: 0.01,
+      latitudeDelta: 0.5,
+      longitudeDelta: 0.5,
     });
   };
 
@@ -198,9 +226,11 @@ export default function MapScreen({ navigation }) {
     <View style={[styles.container, { marginBottom: tabBarHeight }]}>
       <MapView
         style={styles.map}
-        region={currentRegion}
+        // region={currentRegion}
         showsUserLocation={true}
         showsMyLocationButton={true}
+        // initialRegion={region}
+        region={currentRegion}
         onPress={(event) => {
           if (addingMarker) {
             addMarker(event.nativeEvent.coordinate);
@@ -232,16 +262,7 @@ export default function MapScreen({ navigation }) {
       </MapView>
       <View style={styles.leftIcons}>
       <TouchableOpacity 
-          onPress={() => {
-        {navigateToCoordinates}
-              // console.log("Go to NATURAL HISTORY");
-              // const { latitude, longitude } = location.coords;
-              // // latitude: 34.03238, longitude: -118.34691 
-              // console.log(location)
-              // setCurrentRegion({ ...currentRegion, latitude, longitude });
-              
-      }
-    }
+          onPress={handleGoToCoordinates} 
             >
       <Image
               source={require("../../assets/ChatFeature.png")}
@@ -272,12 +293,18 @@ export default function MapScreen({ navigation }) {
               setAddingMarker(!addingMarker);
             }}
           >
-            <Image
+
+          <Ionicons
+            name={addingMarker ? 'ios-close-outline' : 'ios-add-outline'}
+            size={30}
+            color={addingMarker ? 'red' : 'black'}
+          />
+            {/* <Image
               source={addingMarker ? cancelImage : plusImage}
               // style={{ width: 30, height: 30, tintColor: addingMarker ? 'red' : 'black' }}
               style={{ width: 40, height: 40 }}
               resizeMode="contain"
-            />
+            /> */}
           </TouchableOpacity>
          
       
