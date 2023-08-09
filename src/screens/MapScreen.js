@@ -15,6 +15,7 @@ import {
   TouchableOpacity,
   Modal,
   TextInput,
+  Button,
 } from "react-native";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -34,37 +35,20 @@ export default function MapScreen({ navigation }) {
   });
 
   const targetCoordinates = {
-    // go to natural history museum
+    //natural history museum coordinates 
     latitude: 34.0171,
     longitude: -118.2887,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   };
 
-  // const [region, setRegion] = useState({
-  //   latitude: 34.0171,
-  //   longitude: -118.2887,
-  //   latitudeDelta: 0.01,
-  //   longitudeDelta: 0.01,
-  // });
-
-  const handleGoToCoordinates = () => {
-    console.log("yas");
+  const handleGoToCoordinates = () => { // go to museum
     setCurrentRegion(targetCoordinates);
   };
 
-  // const bottomSheetRef = useRef < BottomSheet > null;
-
-  // // variables
-  // const snapPoints = useMemo(() => ["25%", "50%"], []);
-
-  // // callbacks
-  // const handleSheetChanges = useCallback((index: number) => {
-  //   console.log("handleSheetChanges", index);
-  // }, []);
 
   const initialMarkers = [
-    // coordinate: { latitude: 34.0171, longitude: -118.2887 },
+
     {
       coordinate: { latitude: 34.0171, longitude: -118.2887 },
       title: "Natural History Museum",
@@ -107,16 +91,7 @@ export default function MapScreen({ navigation }) {
       description: "Community Garden: 2415 Broadway Santa Monica",
       image: require("../../assets/communityGarden.png"),
     },
-    // {
-    //   coordinate: {
-    //     latitude: 34.037195529699446,
-    //     longitude: -118.44354044668881,
-    //   },
-    //   title: "Faith Tabernacle Pantry",
-    //   description:
-    //     "Food Bank: 2147 Purdue Avenue, Los Angeles, CA 90025, United States",
-    //   image: require("../../assets/foodBank.png"),
-    // },
+
     {
       coordinate: {
         latitude: 34.0169414443277,
@@ -165,20 +140,31 @@ export default function MapScreen({ navigation }) {
 
   const plusImage = require("../../assets/carrotAdd.png");
 
-  // const cancelImage = require('../../assets/foodBank.png');
   const cancelImage = require("../../assets/close-outline.svg");
 
   const [markers, setMarkers] = useState(initialMarkers);
-  // const addMarker = (coordinate) => {
-  //   setMarkers([...markers, { coordinate }]);
-  // };
 
   const [addingMarker, setAddingMarker] = useState(false);
+  const [textInputValue, setTextInputValue] = useState("");
 
+
+//updating new user inputted marker title + description
+  const [markerTitle, setMarkerTitle] = useState("");
+  const [markerDescription, setMarkerDescription] = useState("");
+
+  //updating new user inputted marker title + description
   const addMarker = (coordinate) => {
-    console.log("yas");
-    setMarkers([...markers, { coordinate }]);
-    setAddingMarker(false); // Reset the addingMarker state
+    if (markerTitle && markerDescription) {
+      setMarkers([
+        ...markers,
+        { coordinate, title: markerTitle, description: markerDescription },
+      ]);
+      setMarkerTitle("");
+      setMarkerDescription("");
+      setAddingMarker(false);
+      setIsModalVisible(false);
+      console.log(setMarkerTitle);
+    }
   };
 
   useEffect(() => {
@@ -203,29 +189,18 @@ export default function MapScreen({ navigation }) {
   text = JSON.stringify(location);
 
   const navigateToCoordinates = () => {
-    console.log("meow");
-    // Coordinates for 34.0171° N, 118.2887° W
     const targetCoordinates = {
       latitude: 34.0171,
       longitude: -118.2887,
     };
-
-    // Use the map's animateToRegion function to move to the target coordinates
-    mapViewRef.current.animateToRegion({
-      ...targetCoordinates,
-      latitudeDelta: 0.5,
-      longitudeDelta: 0.5,
-    });
   };
 
   return (
     <View style={[styles.container, { marginBottom: tabBarHeight }]}>
       <MapView
         style={styles.map}
-        // region={currentRegion}
         showsUserLocation={true}
         showsMyLocationButton={true}
-        // initialRegion={region}
         region={currentRegion}
         onPress={(event) => {
           if (addingMarker) {
@@ -256,6 +231,7 @@ export default function MapScreen({ navigation }) {
           </Marker>
         ))}
       </MapView>
+
       <View style={styles.leftIcons}>
         <TouchableOpacity onPress={handleGoToCoordinates}>
           <Image
@@ -263,6 +239,18 @@ export default function MapScreen({ navigation }) {
             resizeMode="contain"
           />
         </TouchableOpacity>
+        <TextInput
+          placeholder="Title"
+          value={markerTitle}
+          onChangeText={setMarkerTitle}
+          style={styles.input}
+        />
+        <TextInput
+          placeholder="Description"
+          value={markerDescription}
+          onChangeText={setMarkerDescription}
+          style={styles.input}
+        />
       </View>
 
       <View style={styles.rightIcons}>
@@ -287,12 +275,7 @@ export default function MapScreen({ navigation }) {
             size={30}
             color={addingMarker ? "red" : "black"}
           />
-          {/* <Image
-              source={addingMarker ? cancelImage : plusImage}
-              // style={{ width: 30, height: 30, tintColor: addingMarker ? 'red' : 'black' }}
-              style={{ width: 40, height: 40 }}
-              resizeMode="contain"
-            /> */}
+      
         </TouchableOpacity>
 
         <TouchableOpacity>
@@ -348,6 +331,16 @@ export default function MapScreen({ navigation }) {
   );
 }
 const styles = StyleSheet.create({
+  input: {
+    width: "400%",
+    padding: 10,
+    backgroundColor: "rgba(255, 255, 255, 0.7)", 
+    borderRadius: 8,
+    height: 150, 
+  },
+  backgroundImage: {
+    flex: 1,
+  },
   flipIcon: {
     marginTop: 10,
     transform: [{ rotate: "90deg" }],
@@ -365,7 +358,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   rightIcons: {
-    // backgroundColor: 'white',
     position: "absolute",
     right: 20,
     paddingTop: 30,
@@ -374,7 +366,6 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   leftIcons: {
-    // backgroundColor: 'white',
     position: "absolute",
     left: 5,
     paddingTop: 30,
@@ -391,11 +382,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  // container: {
-  //   flex: 1,
-  //   padding: 24,
-  //   backgroundColor: 'grey',
-  // },
   contentContainer: {
     flex: 1,
     alignItems: "center",
