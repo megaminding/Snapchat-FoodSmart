@@ -20,7 +20,6 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Location from "expo-location";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import BottomSheet from "@gorhom/bottom-sheet";
 
 export default function MapScreen({ navigation }) {
   const tabBarHeight = useBottomTabBarHeight();
@@ -33,7 +32,6 @@ export default function MapScreen({ navigation }) {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
-
 
 
   const targetCoordinates = { // go to natural history museum
@@ -178,7 +176,7 @@ export default function MapScreen({ navigation }) {
   const [addingMarker, setAddingMarker] = useState(false);
 
   const addMarker = (coordinate) => {
-    console.log('yas')
+    console.log("yas");
     setMarkers([...markers, { coordinate }]);
     setAddingMarker(false); // Reset the addingMarker state
   };
@@ -192,7 +190,6 @@ export default function MapScreen({ navigation }) {
       }
       let location = await Location.getCurrentPositionAsync({});
 
-      
       setLocation(location);
       setCurrentRegion({
         latitude: 34.0211573,
@@ -206,7 +203,7 @@ export default function MapScreen({ navigation }) {
   text = JSON.stringify(location);
 
   const navigateToCoordinates = () => {
-    console.log('meow')
+    console.log("meow");
     // Coordinates for 34.0171° N, 118.2887° W
     const targetCoordinates = {
       latitude: 34.0171,
@@ -220,7 +217,6 @@ export default function MapScreen({ navigation }) {
       longitudeDelta: 0.5,
     });
   };
-
 
   return (
     <View style={[styles.container, { marginBottom: tabBarHeight }]}>
@@ -275,9 +271,7 @@ export default function MapScreen({ navigation }) {
         </View>
 
       <View style={styles.rightIcons}>
-     
         <View style={styles.first}>
-      
           <TouchableOpacity>
             <Image
               source={require("../../assets/mapRightIcons.png")}
@@ -308,7 +302,6 @@ export default function MapScreen({ navigation }) {
           </TouchableOpacity>
          
       
-
         <TouchableOpacity>
           <Ionicons style={styles.nightModeIcon} size={30} color="white" />
         </TouchableOpacity>
@@ -396,7 +389,7 @@ const styles = StyleSheet.create({
     width: 40,
     padding: 5,
   },
-  first:{
+  first: {
     right: 10,
   },
   container: {
