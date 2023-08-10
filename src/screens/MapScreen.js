@@ -31,6 +31,7 @@ export default function MapScreen({ navigation }) {
   const insets = useSafeAreaInsets();
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [selectedCoordinates, setCoords] = useState(null);
   const [currentRegion, setCurrentRegion] = useState({
     latitude: 34.0211573,
     longitude: -118.4503864,
@@ -39,7 +40,7 @@ export default function MapScreen({ navigation }) {
   });
 
   const targetCoordinates = {
-    //natural history museum coordinates 
+    //natural history museum coordinates
     latitude: 34.0171,
     longitude: -118.2887,
     latitudeDelta: 0.01,
@@ -56,10 +57,9 @@ export default function MapScreen({ navigation }) {
     bottomSheetModalRef.current?.present();
   }
 
-  const snapPoints = useMemo(() => ["25%", "50%"], []);
+  const snapPoints = useMemo(() => ["20%", "35%"], []);
 
   const initialMarkers = [
-
     {
       coordinate: { latitude: 34.0171, longitude: -118.2887 },
       title: "Natural History Museum",
@@ -157,8 +157,7 @@ export default function MapScreen({ navigation }) {
   const [addingMarker, setAddingMarker] = useState(false);
   const [textInputValue, setTextInputValue] = useState("");
 
-
-//updating new user inputted marker title + description
+  //updating new user inputted marker title + description
   const [markerTitle, setMarkerTitle] = useState("");
   const [markerDescription, setMarkerDescription] = useState("");
 
@@ -172,7 +171,6 @@ export default function MapScreen({ navigation }) {
       setMarkerTitle("");
       setMarkerDescription("");
       setAddingMarker(false);
-      setIsModalVisible(false);
       console.log(setMarkerTitle);
     }
   };
@@ -215,7 +213,7 @@ export default function MapScreen({ navigation }) {
           region={currentRegion}
           onPress={(event) => {
             if (addingMarker) {
-              addMarker(event.nativeEvent.coordinate);
+              setCoords(event.nativeEvent.coordinate);
               handlePresentModal();
             }
           }}
@@ -226,7 +224,25 @@ export default function MapScreen({ navigation }) {
             snapPoints={snapPoints}
           >
             <View>
-              <Text>Hello</Text>
+              <TextInput
+                placeholder="Title"
+                value={markerTitle}
+                onChangeText={setMarkerTitle}
+                style={styles.input}
+              />
+              <TextInput
+                placeholder="Description"
+                value={markerDescription}
+                onChangeText={setMarkerDescription}
+                style={styles.input}
+              />
+              <Button
+                title="Submit"
+                onPress={() => {
+                  handlePresentModal();
+                  addMarker(selectedCoordinates);
+                }}
+              />
             </View>
           </BottomSheetModal>
           {markers.map((marker, index) => (
@@ -259,18 +275,6 @@ export default function MapScreen({ navigation }) {
               resizeMode="contain"
             />
           </TouchableOpacity>
-                      <TextInput
-          placeholder="Title"
-          value={markerTitle}
-          onChangeText={setMarkerTitle}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Description"
-          value={markerDescription}
-          onChangeText={setMarkerDescription}
-          style={styles.input}
-        />
         </View>
         <TouchableOpacity // code for button to add new markers!
           style={[styles.userLocation, styles.shadow]}
@@ -284,7 +288,6 @@ export default function MapScreen({ navigation }) {
             size={30}
             color={addingMarker ? "red" : "black"}
           />
-      
         </TouchableOpacity>
 
         <View style={styles.rightIcons}>
@@ -366,11 +369,8 @@ export default function MapScreen({ navigation }) {
 }
 const styles = StyleSheet.create({
   input: {
-    width: "400%",
-    padding: 10,
-    backgroundColor: "rgba(255, 255, 255, 0.7)", 
-    borderRadius: 8,
-    height: 150, 
+    padding: 20,
+    height: 50,
   },
   backgroundImage: {
     flex: 1,
