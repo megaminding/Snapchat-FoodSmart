@@ -57,7 +57,7 @@ export default function MapScreen({ navigation }) {
     bottomSheetModalRef.current?.present();
   }
 
-  const snapPoints = useMemo(() => ["20%", "35%"], []);
+  const snapPoints = useMemo(() => ["20%", "40%"], []);
 
   const initialMarkers = [
     {
@@ -244,25 +244,83 @@ export default function MapScreen({ navigation }) {
             // style={{backgroundColor:"#ECECEE"}}
           >
             <View>
+              <Text
+                style={{
+                  fontFamily: "Avenir Next",
+                  fontSize: 16,
+                  fontStyle: "normal",
+                  fontWeight: "700",
+                  lineHeight: 24,
+                  marginLeft: 30,
+                }}
+              >
+                Add a Title
+              </Text>
               <TextInput
-                placeholder="Title"
+                placeholder="Enter title"
                 value={markerTitle}
                 onChangeText={setMarkerTitle}
-                style={styles.input}
+                style={{
+                  width: 370,
+                  height: 60,
+                  padding: 20,
+                  backgroundColor: "#ECECEE",
+                  alignItems: "flex-start",
+                  borderRadius: 16,
+                  fontFamily: "Avenir Next",
+                  fontSize: 16,
+                  color: "black",
+                  margin: 10,
+                  // gap: '10px',
+                }}
+                // style={styles.input}
               />
+              <Text
+                style={{
+                  fontFamily: "Avenir Next",
+                  fontSize: 16,
+                  fontStyle: "normal",
+                  fontWeight: "700",
+                  lineHeight: 24,
+                  marginLeft: 30,
+                }}
+              >
+                Add a Description
+              </Text>
               <TextInput
-                placeholder="Description"
+                placeholder="Enter a description"
                 value={markerDescription}
                 onChangeText={setMarkerDescription}
-                style={styles.input}
-              />
-              <Button
-                title="Submit"
-                onPress={() => {
-                  handlePresentModal();
-                  addMarker(selectedCoordinates);
+                style={{
+                  width: 370,
+                  height: 60,
+                  padding: 20,
+                  backgroundColor: "#ECECEE",
+                  alignItems: "flex-start",
+                  borderRadius: 16,
+                  fontFamily: "Avenir Next",
+                  fontSize: 16,
+                  color: "black",
+                  margin: 10,
+                  // gap: '10px',
                 }}
+                // style={styles.input}
               />
+              <TouchableOpacity
+                title="Submit"
+                color="black"
+                onPress={() => {
+                  addMarker(selectedCoordinates);
+                  handlePresentModal();
+                }}
+              >
+                <Image
+                  // style={styles.bitmojiImage}
+                  style={{ width: 360, height: 35, marginLeft: 10 }}
+                  resizeMode="contain"
+                  source={require("../../assets/Button.png")}
+                />
+              </TouchableOpacity>
             </View>
           </BottomSheetModal>
           {markers.map((marker, index) => (
