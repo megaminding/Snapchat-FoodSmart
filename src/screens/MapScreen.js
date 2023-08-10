@@ -203,6 +203,12 @@ export default function MapScreen({ navigation }) {
     };
   };
 
+  const MarketbottomSheetModalRef = useRef(null);
+  function MarkethandlePresentModal() {
+    console.log("banana");
+    MarketbottomSheetModalRef.current?.present();
+  }
+
   return (
     <View style={[styles.container, { marginBottom: tabBarHeight }]}>
       <BottomSheetModalProvider>
@@ -219,9 +225,23 @@ export default function MapScreen({ navigation }) {
           }}
         >
           <BottomSheetModal
+            ref={MarketbottomSheetModalRef}
+            index={1}
+            snapPoints={snapPoints}
+          >
+            <View>
+              <Image
+                style={{ width: 390, height: 1000 }}
+                resizeMode="contain"
+                source={require("../../assets/foodresources.png")}
+              ></Image>
+            </View>
+          </BottomSheetModal>
+          <BottomSheetModal
             ref={bottomSheetModalRef}
             index={1}
             snapPoints={snapPoints}
+            // style={{backgroundColor:"#ECECEE"}}
           >
             <View>
               <TextInput
@@ -251,6 +271,7 @@ export default function MapScreen({ navigation }) {
               coordinate={marker.coordinate}
               title={marker.title}
               description={marker.description}
+              onPress={MarkethandlePresentModal}
             >
               {marker.image ? (
                 <Image
