@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import UserChat from "../components/UserChat";
 import Questionaire from "../chatbots/Questionaire";
+import FoodSmartAI from "../chatbots/myAI";
 
 // prettier-ignore
 export const CHATBOTS = {
@@ -10,6 +11,11 @@ export const CHATBOTS = {
     name: "Team SnatChap",
     imageUrl: "https://i.insider.com/50e4891469beddab1c000008?width=600&format=jpeg&auto=webp",
     component: Questionaire,
+  },
+  "FoodSmart AI": {
+    name: "FoodSmat AI",
+    imageUrl: "",
+    component: FoodSmartAI,
   }
 }
 
