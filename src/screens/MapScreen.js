@@ -284,7 +284,7 @@ export default function MapScreen({ navigation }) {
                   fontWeight: "700",
                   lineHeight: 24,
                   marginLeft: 30,
-                  marginTop: 10
+                  marginTop: 10,
                 }}
               >
                 Add a Description
@@ -333,7 +333,6 @@ export default function MapScreen({ navigation }) {
               description={marker.description}
               onPress={MarkethandlePresentModal}
             >
-              
               {marker.image ? (
                 <Image
                   source={marker.image}
@@ -343,7 +342,7 @@ export default function MapScreen({ navigation }) {
               ) : (
                 <Image
                   source={require("../../assets/unofficialPin.png")}
-                  style={{ width: 48, height: 48 }}
+                  style={{ width: 25, height: 48 }}
                   resizeMode="contain"
                 />
               )}
@@ -354,8 +353,7 @@ export default function MapScreen({ navigation }) {
           <TouchableOpacity onPress={handleGoToCoordinates}>
             <Image
               source={require("../../assets/ChatFeature.png")}
-              style={{ width: 195, height: 200, margin:-10 }}
-           
+              style={{ width: 195, height: 200, margin: -10 }}
               resizeMode="contain"
             />
           </TouchableOpacity>
@@ -453,15 +451,15 @@ export default function MapScreen({ navigation }) {
 }
 const styles = StyleSheet.create({
   calloutContainer: {
-    backgroundColor: 'green',
+    backgroundColor: "green",
     padding: 10,
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   calloutText: {
-    color: 'white',
-    textAlign: 'center',
+    color: "white",
+    textAlign: "center",
   },
   input: {
     padding: 20,

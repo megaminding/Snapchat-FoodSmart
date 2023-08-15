@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { GiftedChat } from "react-native-gifted-chat";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, SafeAreaView, Platform } from "react-native";
-import { getChat } from "../utils/hooks/getChatGPT";
+import { getChat } from "../utils/hooks/getChatgpt";
 
 const CHATBOT_USER_OBJ = {
   _id: 2,
