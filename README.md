@@ -1,7 +1,21 @@
-# FoodSmart
+<img width="760" alt="Screenshot 2023-08-14 at 2 07 20 PM" src="https://github.com/Snap-Engineering-Academy-2023/food-security/assets/125762824/1fcdd0bf-56b7-4e98-9454-93a01174f105">
 
-FoodSmart is a feature built primarily within the Snap Maps feature of Snapchat.
-It was a feature pitched to Snap's Chief Operating Officer Jerry Hunter and Chief Creative Officer Colleen DeCourcy
+**1 in 5 Californians struggle with food insecurity** - Source California Association of Food Banks
+## FoodSmart
+
+
+We built FoodSmart to address food insecurity, with an emphasis on streamlining access to food resources.
+
+FoodSmart is a Snapchat feature prototype that was developed under a cross-collaboration team. 
+- Developers: Megan Tieu, Winston Giang
+- Marketers: Soleil Cardenas, Sophia Cortez
+- Designers: Betty Shin, Hunter Moranville
+
+We pitched our feature to Snap's Executives and received positive feedback.
+
+**"Your team leaned in and used the people as the technology, but you guys were also so smart about using the data that we can collect about people. I can see this thing  becoming self-perpetuating over time and I thought this was very smart. Lovely work."** -Chief Creative Officer Colleen DeCourcy
+
+"**This idea strikes me as something that would get a lot of momentum because there’s a lot of product market fit aspect."** - Chief Operating Officer Jerry Hunter
 
 ## 1. Setting up
 
@@ -44,3 +58,6 @@ There should've been a QR code that popped up in the terminal when you used "yar
 3. Sign up with your own random email/password, or login using the public account:
 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Username: testing@gmail.com
 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Password: password
+
+## Thanks for reading! -FoodSmart team <3
+![IMG_1054](https://github.com/Snap-Engineering-Academy-2023/food-security/assets/125762824/98d296d2-fb3d-4ccb-a38b-0d920d90c29c)
