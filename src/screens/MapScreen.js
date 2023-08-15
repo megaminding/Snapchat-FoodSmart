@@ -58,6 +58,7 @@ export default function MapScreen({ navigation }) {
   }
 
   const snapPoints = useMemo(() => ["20%", "40%"], []);
+  const resourcesSnapPoints = useMemo(() => ["20%", "30%"], []);
 
   const initialMarkers = [
     {
@@ -84,12 +85,12 @@ export default function MapScreen({ navigation }) {
       description: "Community Fridge: 4874 West Adams Blvd, Los Angeles",
       image: require("../../assets/communityFridges.png"),
     },
-    {
-      coordinate: { latitude: 34.00468, longitude: -118.48666 },
-      title: "Main Street Garden",
-      description: "Community Garden: 2318 Main St. Santa Monica",
-      image: require("../../assets/communityGarden.png"),
-    },
+    // {
+    //   coordinate: { latitude: 34.00468, longitude: -118.48666 },
+    //   title: "Main Street Garden",
+    //   description: "Community Garden: 2318 Main St. Santa Monica",
+    //   image: require("../../assets/communityGarden.png"),
+    // },
     {
       coordinate: { latitude: 34.00619, longitude: -118.46507 },
       title: "Marine St Garden",
@@ -227,7 +228,7 @@ export default function MapScreen({ navigation }) {
           <BottomSheetModal
             ref={MarketbottomSheetModalRef}
             index={1}
-            snapPoints={snapPoints}
+            snapPoints={resourcesSnapPoints}
           >
             <View>
               <Image
@@ -283,6 +284,7 @@ export default function MapScreen({ navigation }) {
                   fontWeight: "700",
                   lineHeight: 24,
                   marginLeft: 30,
+                  marginTop: 10
                 }}
               >
                 Add a Description
@@ -331,10 +333,11 @@ export default function MapScreen({ navigation }) {
               description={marker.description}
               onPress={MarkethandlePresentModal}
             >
+              
               {marker.image ? (
                 <Image
                   source={marker.image}
-                  style={{ width: 48, height: 48 }}
+                  style={{ width: 25, height: 48 }}
                   resizeMode="contain"
                 />
               ) : (
@@ -351,6 +354,8 @@ export default function MapScreen({ navigation }) {
           <TouchableOpacity onPress={handleGoToCoordinates}>
             <Image
               source={require("../../assets/ChatFeature.png")}
+              style={{ width: 195, height: 200, margin:-10 }}
+           
               resizeMode="contain"
             />
           </TouchableOpacity>
@@ -447,6 +452,17 @@ export default function MapScreen({ navigation }) {
   );
 }
 const styles = StyleSheet.create({
+  calloutContainer: {
+    backgroundColor: 'green',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  calloutText: {
+    color: 'white',
+    textAlign: 'center',
+  },
   input: {
     padding: 20,
     height: 50,
